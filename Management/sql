@@ -1,0 +1,26 @@
+-- Table: cutomers.CUSTOMERS
+
+DROP TABLE customers."CUSTOMERS";
+
+CREATE TABLE customers."CUSTOMERS"
+(
+    id integer NOT NULL,
+    name character(100) COLLATE pg_catalog."default" NOT NULL,
+    country character(100) COLLATE pg_catalog."default" NOT NULL,
+    city character(100) COLLATE pg_catalog."default" NOT NULL,
+    status character(100) COLLATE pg_catalog."default" NOT NULL,
+    CONSTRAINT "CUSTOMERS_pkey" PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE customers."CUSTOMERS"
+    OWNER to postgres;
+    
+insert into customers."CUSTOMERS"(id, name, country, city, status) values ('1', 'Alex', 'USA', 'LA', 'default');
+insert into customers."CUSTOMERS"(id, name, country, city, status) values ('2', 'John', 'Poland', 'Warsaw', 'vip');
+insert into customers."CUSTOMERS"(id, name, country, city, status) values ('3', 'Joe', 'Polandia', 'Warsaw', 'vip');
+insert into customers."CUSTOMERS"(id, name, country, city, status) values ('4', 'Alexey', 'Ukrain', 'Kiev', 'default');
+insert into customers."CUSTOMERS"(id, name, country, city, status) values ('5', 'Mark', 'Japan', 'Tokyo', 'brbr');
+insert into customers."CUSTOMERS"(id, name, country, city, status) values ('6', 'Joe', 'USA', 'Chicago', 'vIp');
+insert into customers."CUSTOMERS"(id, name, country, city, status) values ('7', 'Ivan', 'Russia', 'Moscow', 'default');
