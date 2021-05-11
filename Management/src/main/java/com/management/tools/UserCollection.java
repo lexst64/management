@@ -19,17 +19,12 @@ public class UserCollection {
 	
 	private static Queue<User> customersList = new PriorityQueue<User>();
 	
-	private static Connection connectToDatabase() {
+	private static Connection connectToDatabase() throws SQLException {
 		
 		Connection databaseConnect = null;
 		
-		try {
-			databaseConnect = DriverManager.getConnection(URL, LOGIN, PASSWORD);
-			System.out.println("You have been connected to database");
-		} catch (SQLException ex) {
-			System.err.println("Connection fail");
-			ex.printStackTrace();
-		}
+		databaseConnect = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+		System.out.println("You have been connected to database");
 		
 		return databaseConnect;
 		
@@ -44,50 +39,50 @@ public class UserCollection {
 	 * here is created new User's object and are used User's setters.
 	 * trim() method is used for removing excess space from string.
 	 * */
-	private static void addUsersToList() {
+	private static void addUsersToList() throws SQLException {
 		
 		Statement statement;
 		ResultSet resultSet;
 		
-		try {
 			
-			statement = connectToDatabase().createStatement();
-			resultSet = statement.executeQuery("SELECT * FROM customers.\"CUSTOMERS\"");
+		statement = connectToDatabase().createStatement();
+		resultSet = statement.executeQuery("SELECT * FROM customers.\"CUSTOMERS\"");
 			
-			while(resultSet.next()) {
+		while(resultSet.next()) {
 				
-				User user = new User();
+			User user = new User();
 				
-				user.setId(resultSet.getInt("id"));
-				user.setName(resultSet.getString("name").trim());
-				user.setCountry(resultSet.getString("country").trim());
-				user.setCity(resultSet.getString("city").trim());
+			user.setId(resultSet.getInt("id"));
+			user.setName(resultSet.getString("name").trim());
+			user.setCountry(resultSet.getString("country").trim());
+			user.setCity(resultSet.getString("city").trim());
 				
-				/*
-				 * For setting status field is used Status constant.
-				 * If resultSet returns neither "VIP" nor "Default" then
-				 * status field will be assigned "default" value.
-				 * */
-				if(resultSet.getString("status").trim().equalsIgnoreCase("vip")) {
-					user.setStatus(Status.VIP);
-				} else if (resultSet.getString("status").trim().equalsIgnoreCase("default")) {
-					user.setStatus(Status.DEFAULT);
-				} else {
-					user.setStatus(Status.DEFAULT);
-				}
-				
-				customersList.add(user);
-				
+			/*
+			 * For setting status field is used Status constant.
+			 * If resultSet returns neither "VIP" nor "Default" then
+			 * status field will be assigned "default" value.
+			 * */
+			if(resultSet.getString("status").trim().equalsIgnoreCase("vip")) {
+				user.setStatus(Status.VIP);
+			} else if (resultSet.getString("status").trim().equalsIgnoreCase("default")) {
+				user.setStatus(Status.DEFAULT);
+			} else {
+				user.setStatus(Status.DEFAULT);
 			}
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+				
+			customersList.add(user);
+				
 		}
 		
 	}
 	
 	public static String getUserList() {
 		
-		addUsersToList();
+		try {
+			addUsersToList();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 		StringBuilder builder = new StringBuilder();
 		int size = customersList.size();
