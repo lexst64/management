@@ -10,7 +10,11 @@
 </head>
 <body>
 	<%
-		out.println(UserCollection.getUserList());
+		try {
+			out.println(UserCollection.getUserList());
+		} catch (final ListIsEmptyException e) {
+			e.printStackTrace();
+		}
 	%>
 	<%-- <form action="${pageContext.request.contextPath}/servlet" method="post">
 		<input type="text" name="login" placeholder="login" /><br />

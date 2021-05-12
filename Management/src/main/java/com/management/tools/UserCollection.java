@@ -46,13 +46,11 @@ public class UserCollection {
 	 * */
 	private static void addUsersToList() {
 		
-		Statement statement;
-		ResultSet resultSet;
-		
-		try {
-			
-			statement = connectToDatabase().createStatement();
-			resultSet = statement.executeQuery("SELECT * FROM customers.\"CUSTOMERS\"");
+		try (Statement statement = 
+				connectToDatabase().createStatement();
+			ResultSet resultSet = 
+				statement.executeQuery("SELECT * FROM customers.\"CUSTOMERS\"")
+		) {
 			
 			while(resultSet.next()) {
 				
@@ -81,21 +79,28 @@ public class UserCollection {
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		}
+		} 
 		
 	}
 	
-	public static String getUserList() {
+	public static String getUserList() throws ListIsEmptyException {
 		
 		addUsersToList();
 		
 		StringBuilder builder = new StringBuilder();
 		int size = customersList.size();
 		
-		for(int i = 0; i < size; i++) {
-			builder.append(customersList.poll()).append("<br />");
+		/*
+		 * Size of the "customerList" must be > 0
+		 * else program will throw an "IllegalArgumentException"
+		 * */
+		if (size > 0) {
+			for(int i = 0; i < size; i++) {
+				builder.append(customersList.poll()).append("<br />");
+			}
+		} else {
+			throw new ListIsEmptyException("There are no users in the database");
 		}
-		
 		return builder.toString();
 		
 	}
