@@ -121,7 +121,7 @@ public class User implements Comparable<User> {
 		builder.append(", city=");
 		builder.append(city);
 		builder.append(", status=");
-		builder.append(status.getLabel());
+		builder.append(status);
 		builder.append("]");
 		return builder.toString();
 	}

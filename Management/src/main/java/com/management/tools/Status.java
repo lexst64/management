@@ -2,16 +2,18 @@ package com.management.tools;
 
 public enum Status {
 	
-	DEFAULT("Default"), VIP("Vip");
+	DEFAULT {
+		@Override
+		public String toString() {
+			return "Default";
+		}
+	},
 	
-	private String label;
-	
-	Status(String label) {
-		this.label = label;
-	}
-
-	public String getLabel() {
-		return label;
+	VIP {
+		@Override
+		public String toString() {
+			return "Vip";
+		}
 	}
 	
 }
