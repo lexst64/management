@@ -101,6 +101,7 @@ public class UserCollection {
 		} else {
 			throw new ListIsEmptyException("There are no users in the database");
 		}
+		
 		return builder.toString();
 		
 	}
